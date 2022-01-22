@@ -20,5 +20,5 @@ app.use(express.urlencoded({extended: true}));
 route(app);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`,process.env.REFRESH_TOKEN_SECRET);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });

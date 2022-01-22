@@ -16,18 +16,7 @@ const signUp = (req, res, next) => {
     .catch(() => res.json({ st: "Lỗi rồi" }));
 };
 
- function generateAcessToken(user) {
 
-  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 60 });
-}
-let refreshTokens = [];
- function generateRefreshToken(user) {
-  const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: 60,
-  });
-  refreshTokens.push(refreshToken);
-  return refreshToken;
-}
 
 const login = (req, res,next) => {
   User.findOne({
@@ -35,19 +24,20 @@ const login = (req, res,next) => {
     'account.password': req.body.password,
   })
     .then((user) => {
-      console.log(req.body.username,'+',req.body.password);
+      console.log(user);
       if (user) {
-        try {
-          // const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, {
-          //   expiresIn: 20,
-          // });
-          const token = generateAcessToken({_id:user._id});
-          const refreshToken = generateRefreshToken({_id:user._id});
+        res.json(user);
+        // try {
+        //   // const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY, {
+        //   //   expiresIn: 20,
+        //   // });
+        //   const token = generateAcessToken({_id:user._id});
+        //   const refreshToken = generateRefreshToken({_id:user._id});
 
-          res.json({ token,refreshToken, user, error: null });
-        } catch (error) {
-          res.json({ token,refreshToken, user: null, error: "Can not find user" });
-        }
+        //   res.json({ token,refreshToken, user, error: null });
+        // } catch (error) {
+        //   res.json({ token,refreshToken, user: null, error: "Can not find user" });
+        // }
       } else {
         res.json({ token,refreshToken, user: null, error: "Can not find user" });
       }
