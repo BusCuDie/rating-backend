@@ -39,10 +39,10 @@ const login = (req, res,next) => {
         //   res.json({ token,refreshToken, user: null, error: "Can not find user" });
         // }
       } else {
-        res.json({ token,refreshToken, user: null, error: "Can not find user" });
+        res.json(null);
       }
     })
-    .catch((err) => res.status(401).send("Không tìm thấy user"));
+    .catch((err) =>  res.json(null));
 };
 
 const editprofile = (req, res, next) => {
@@ -65,6 +65,7 @@ const rating = (req, res, next) => {
   console.log(UserId);
   User.findById(UserId)
     .then((result) => {
+      console.log( result.ratepoint );
       result.ratepoint -= req.body.point;
       result.ratecomments.push({
         createTime: new Date(),
